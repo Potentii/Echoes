@@ -1,0 +1,21 @@
+{
+  "name": "http-comm",
+  "version": "1.0.0",
+  "description": "Communication software that uses HTTP",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-packager . HTTP-comm --platform=win32 --arch=x64 --overwrite=true --asar=true --version-string.FileDescription=HTTP-comm --version-string.CompanyName=Guilherme"
+  },
+  "author": "Guilherme Reginaldo Ruella",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "electron-packager": "7.0.1",
+    "body-parser": "1.15.1",
+    "electron-prebuilt": "1.0.2",
+    "express": "4.13.4",
+    "internal-ip": "1.2.0",
+    "jquery": "2.2.3"
+  }
+}

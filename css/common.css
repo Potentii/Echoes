@@ -1,0 +1,199 @@
+@font-face{
+	font-family: "Roboto";
+	src: url("../font/Roboto-Regular.ttf");
+}
+
+*{
+   box-sizing: border-box;
+   padding: 0;
+   margin: 0;
+   border: none;
+   background: none;
+   font-family: Roboto;
+
+   --accent-color: #006064;
+
+   --neutral-lighter-color: #FAFAFA;
+   --neutral-light-color: #EEEEEE;
+   --neutral-color: #424242;
+
+
+   color: var(--neutral-color);
+}
+
+span:hover{
+   cursor: default;
+}
+
+a{
+   text-decoration: none;
+}
+button:hover{
+   cursor: pointer;
+}
+button:focus, input:focus{
+   outline: none;
+}
+
+body{
+   background: var(--neutral-light-color);
+   width: 100%;
+   height: 100%;
+   overflow-x: hidden;
+}
+
+footer{
+   position: fixed;
+   bottom: 0;
+   left: 0;
+   width: 100%;
+}
+
+
+
+
+
+
+.card{
+   background: var(--neutral-lighter-color);
+   border-radius: 2px;
+}
+.box{
+	position: relative;
+   display: block;
+	padding: 1em 1em;
+   margin: 0.5em 1em;
+}
+
+
+
+
+
+.raised{
+	box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+	transition-delay: 0.2s;
+	transition: box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+div.raised, main.raised, nav.raised, section.raised{
+	box-shadow: 0 3px 6px -3px rgba(0, 0, 0, 0.26);
+}
+header.raised{
+	box-shadow: 0 3px 6px -3px rgba(0, 0, 0, 0.26);
+}
+button.raised:active {
+	box-shadow: 0 6px 11px 0 rgba(0, 0, 0, 0.2);
+	transition-delay: 0s;
+}
+
+
+.fab{
+   border-radius: 50%;
+   width: 2em;
+   height: 2em;
+   background: var(--accent-color);
+   color: var(--neutral-lighter-color);
+   text-align: center;
+   transition: opacity, background, 0.3s ease;
+}
+
+.fab:active{
+   opacity: 0.7;
+   transition: opacity 0.1s ease;
+}
+
+
+
+.title{
+   background: var(--accent-color);
+}
+.title > span, .title > button{
+	position: relative;
+	display: inline-block;
+	font-size: 1.3em;
+	color: var(--neutral-lighter-color);
+}
+.title > button:active{
+	background: rgba(255, 255, 255, 0.5);
+	opacity: 1;
+	transition: background 0.2s ease;
+}
+
+
+
+
+
+
+
+
+#feed-list, #chat-list{
+   position: relative;
+   display: block;
+   padding: 1em 0;
+
+	margin-bottom: 6em;
+
+   list-style: none;
+   list-style-type: none;
+}
+
+#feed-list > li, #chat-list > li{
+   position: relative;
+   padding: 1.2em 1em;
+   transition: background 0.3s ease;
+}
+#feed-list > li > span, #chat-list > li > span{
+   position: relative;
+	display: block;
+	width: 100%;
+}
+
+
+#feed-list > li[data-owner="me"], #chat-list > li > span[data-owner="me"]{
+   text-align: right;
+   background: rgba(0, 0, 0, 0.03);
+}
+
+#feed-list > li:hover, #chat-list > li:hover{
+   background: rgba(0, 0, 0, 0.06);
+   transition: background 0.2s ease;
+}
+
+
+.message-info-span, .chat-info-span{
+   display: block;
+   margin-bottom: 0.5em;
+   opacity: 0.5;
+   color: var(--neutral-color);
+   font-size: 0.6em;
+}
+.chat-info-span{
+	font-size: 0.8em;
+}
+
+.message-content-span, .chat-content-span{
+	font-size: 1em;
+}
+
+#no-messages-span, #no-chats-span{
+	text-align: center;
+}
+
+
+
+
+
+
+
+
+
+.send-container{
+   position: relative;
+   display: flex;
+   flex-direction: row;
+}
+.send-container > input{
+	position: relative;
+	flex-grow: 1;
+	padding: 0.5em 1em;
+   font-size: 0.9em;
+}
