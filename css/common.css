@@ -51,9 +51,6 @@ footer{
 
 
 
-
-
-
 .card{
    background: var(--neutral-lighter-color);
    border-radius: 2px;
@@ -64,8 +61,6 @@ footer{
 	padding: 1em 1em;
    margin: 0.5em 1em;
 }
-
-
 
 
 
@@ -117,9 +112,6 @@ button.raised:active {
 	opacity: 1;
 	transition: background 0.2s ease;
 }
-
-
-
 
 
 
@@ -177,10 +169,6 @@ button.raised:active {
 #no-messages-span, #no-chats-span{
 	text-align: center;
 }
-
-
-
-
 
 
 

@@ -8,6 +8,8 @@ var myIp = null;
 
 
 $(document).ready(function(){
+
+   // *Binding F5 key to reload the page, and F12 to toggle the debug window:
    document.addEventListener("keydown", function(e){
       if(e.which === 123){
          // *F12
@@ -20,6 +22,7 @@ $(document).ready(function(){
       }
    });
 
+   // *Adds a listener to ipcRenderer's channel 'get-message-data':
    ipcRenderer.removeAllListeners('get-message-data');
    ipcRenderer.on('get-message-data', (e, arg) => {
       e.returnValue = getMessages();
@@ -28,17 +31,28 @@ $(document).ready(function(){
 });
 
 
+/**
+ * Add a messageData object on localStorage
+ */
 function addMessage(message){
    var messages = getMessages();
    messages.push(message);
    localStorage.setItem(MESSAGES_KEY, JSON.stringify(messages));
 }
+
+
+/**
+ * Retrieves the messageData array object from localStorage
+ */
 function getMessages(){
    var messages = JSON.parse(localStorage.getItem(MESSAGES_KEY));
    return messages?messages:[];
 }
 
 
+/**
+ * Returns the given Date formatted as HH:MM:SS
+ */
 function getHour(dateToFormat){
    var d = new Date(dateToFormat || Date.now()),
       hours = '' + d.getHours(),
@@ -54,6 +68,9 @@ function getHour(dateToFormat){
 }
 
 
+/**
+ * Retrieves the machine's main IP
+ */
 function loadMyIp(){
    myIp = require('internal-ip').v4();
 }

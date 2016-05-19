@@ -1,14 +1,18 @@
 var noChatsSpanDisabled = false;
 
 
+
 $(document).ready(function(){
+   // *Loading basic info:
    loadMyIp();
    loadPreviousChats();
 
+   // *Loading previous target ip:
    $('#ip-input')
       .val(localStorage.getItem(TARGET_IP_KEY))
       .focus();
 
+   // *Adding listener on 'message-received' ipcRenderer's channel:
    ipcRenderer.removeAllListeners('message-received');
    ipcRenderer.on('message-received', (e, arg) => {
       addMessage(arg);
@@ -28,8 +32,9 @@ $(document).ready(function(){
 
 
 
-
-
+/**
+ * confirmBtn onclick listener
+ */
 function confirmBtn_onClick(){
    var ip = $('#ip-input').val().trim();
 
@@ -41,6 +46,10 @@ function confirmBtn_onClick(){
 }
 
 
+
+/**
+ * Loads previous chats and add them on the feed
+ */
 function loadPreviousChats(){
    var messages = getMessages();
    var chats = messages.reduce((accumulator, val) => {
@@ -61,12 +70,17 @@ function loadPreviousChats(){
 }
 
 
+
+/**
+ * Adds a 'chatData' item on the feed
+ */
 function onChat(chatData){
    disableNoChatsText();
    var row = getChatRow(chatData);
    $('#chat-list').append(row);
    updateLastMessage(chatData);
 
+   // *Adding onclick listener to this item:
    row.off('click');
    row.on('click', function(e){
       var ip = $(this).attr('data-ip');
@@ -76,6 +90,11 @@ function onChat(chatData){
    });
 }
 
+
+
+/**
+ * Hides 'no-chats-span' text from the feed
+ */
 function disableNoChatsText(){
    if(!noChatsSpanDisabled){
       $('#no-chats-span').fadeOut(200);
@@ -83,6 +102,11 @@ function disableNoChatsText(){
    }
 }
 
+
+
+/**
+ * Returns a DOM item representing an incoming chat on the feed
+ */
 function getChatRow(chatData){
    var me = chatData.ip==myIp;
    var row = $('<li>')
@@ -100,6 +124,11 @@ function getChatRow(chatData){
    return row;
 }
 
+
+
+/**
+ * Updates the chat's DOM item with its last text sent
+ */
 function updateLastMessage(chatData){
    var me = chatData.ip==myIp;
    $('#chat-list > li[data-ip="' + (me?chatData.target:chatData.ip) + '"]')
