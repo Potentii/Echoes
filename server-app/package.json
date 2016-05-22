@@ -1,11 +1,11 @@
 {
-  "name": "http-comm",
+  "name": "echoes",
   "version": "1.0.0",
-  "description": "Communication software that uses HTTP",
-  "main": "main.js",
+  "description": "Communication software",
+  "main": "./js/main.js",
   "scripts": {
     "start": "electron .",
-    "build": "electron-packager . HTTP-comm --platform=win32 --arch=x64 --overwrite=true --asar=true --version-string.FileDescription=HTTP-comm --version-string.CompanyName=Guilherme"
+    "build": "electron-packager . Echoes --platform=win32 --arch=x64 --overwrite=true --asar=true --version-string.FileDescription=HTTP-comm --version-string.CompanyName=Guilherme"
   },
   "author": "Guilherme Reginaldo Ruella",
   "license": "MIT",
