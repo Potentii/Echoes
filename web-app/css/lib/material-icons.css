@@ -1,6 +1,6 @@
 @font-face {
    font-family: 'Material Icons';
-   src: url(../font/MaterialIcons-Regular.woff) format('woff');
+   src: url(../../res/font/MaterialIcons-Regular.woff) format('woff');
 }
 
 .material-icons {

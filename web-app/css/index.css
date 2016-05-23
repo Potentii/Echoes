@@ -1,0 +1,55 @@
+main{
+   display: flex;
+   flex-direction: row;
+   width: 200%;
+   height: 100%;
+   margin-left: 0%;
+   transition: margin-left 0.4s ease;
+}
+
+main > *{
+   position: relative;
+   height: 100%;
+   width: 100%;
+   overflow: hidden;
+}
+
+main.left-shifted{
+   margin-left: -100%;
+   transition: margin-left 0.4s ease;
+}
+
+@media(min-width: 700px){
+   main{
+      width: 100%;
+   }
+
+   main.left-shifted{
+      margin-left: 0%;
+   }
+
+   #lobby-section{
+      min-width: 30em;
+      max-width: 30em;
+   }
+}
+
+
+#chat-section{
+   display: flex;
+   flex-direction: column;
+}
+
+#chat-feed{
+   flex-grow: 1;
+}
+
+#chat-message-input-container{
+   padding: 1.3em 1.5em;
+}
+#chat-message-input-container > input[type='text']{
+   padding: 0.8em 1em;
+   font-size: 1.1em;
+   width: 100%;
+
+}

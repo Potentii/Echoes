@@ -2,15 +2,15 @@
   "name": "echoes",
   "version": "1.0.0",
   "description": "Communication software",
-  "main": "./js/main.js",
+  "main": "./js/app.js",
   "scripts": {
     "start": "electron .",
     "build": "electron-packager . Echoes --platform=win32 --arch=x64 --overwrite=true --asar=true --version-string.FileDescription=HTTP-comm --version-string.CompanyName=Guilherme"
   },
   "author": "Guilherme Reginaldo Ruella",
   "license": "MIT",
-  "dependencies": {},
   "devDependencies": {
+    "socket.io": "1.4.6",
     "electron-packager": "7.0.1",
     "body-parser": "1.15.1",
     "electron-prebuilt": "1.0.2",

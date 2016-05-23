@@ -1,0 +1,226 @@
+/* ========== * ========== * ========== * ==========
+ * Font
+ * ========== * ========== * ========== * ==========
+ */
+@font-face{
+	font-family: "Roboto";
+	src: url("../res/font/Roboto-Regular.ttf");
+}
+
+
+
+/* ========== * ========== * ========== * ==========
+ * Reset
+ * ========== * ========== * ========== * ==========
+ */
+/*
+ *	All elements:
+ */
+*{
+   box-sizing: border-box;
+   padding: 0;
+   margin: 0;
+   border: none;
+   background: none;
+   font-family: Roboto;
+
+   color: var(--neutral-dark-color);
+}
+
+
+/*
+ *	Specific elements:
+ */
+span:hover{
+   cursor: default;
+}
+a{
+   text-decoration: none;
+}
+ul{
+	list-style: none;
+}
+button:hover{
+   cursor: pointer;
+}
+button:focus, input:focus{
+   outline: none;
+}
+
+
+/*
+ *	Body:
+ */
+body{
+   background: var(--neutral-light-color);
+   width: 100%;
+   height: 100%;
+   overflow-x: hidden;
+}
+
+
+
+/* ========== * ========== * ========== * ==========
+ * Util classes
+ * ========== * ========== * ========== * ==========
+ */
+/*
+ *	Layout:
+ */
+.center{
+	margin: 0 auto;
+	text-align: center;
+}
+
+.horizontal-layout > *{
+	position: relative;
+	display: inline-block;
+	height: 100%;
+}
+.vertical-layout > *{
+	position: relative;
+	display: block;
+	width: 100%;
+}
+
+.flex-horizontal-layout{
+	display: flex;
+	flex-flow: row;
+}
+.flex-vertical-layout{
+	display: flex;
+	flex-flow: column;
+}
+.flex-horizontal-layout > *, .flex-vertical-layout > *{
+	flex-grow: 1;
+	flex-shrink: 1;
+}
+
+
+/*
+ *	Regions:
+ */
+.app-bar{
+	position: relative;
+	display: block;
+	width: 100%;
+	padding: 1.5em 1.5em;
+	font-size: 1.2em;
+}
+
+.card{
+   background: var(--neutral-lighter-color);
+   border-radius: 2px;
+}
+
+.box{
+	position: relative;
+   display: block;
+	padding: 1em 1em;
+   margin: 0.5em 1em;
+}
+
+.vertical-line{
+	position: relative;
+	display: inline-block;
+	width: 1px;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.06);
+}
+
+
+/*
+ *	Effects:
+ */
+.raised{
+	box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+	transition-delay: 0.2s;
+	transition: box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+div.raised, main.raised, nav.raised, section.raised{
+	box-shadow: 0 3px 6px -3px rgba(0, 0, 0, 0.26);
+}
+header.raised{
+	box-shadow: 0 3px 6px -3px rgba(0, 0, 0, 0.26);
+}
+button.raised:active {
+	box-shadow: 0 6px 11px 0 rgba(0, 0, 0, 0.2);
+	transition-delay: 0s;
+}
+
+.tinted{
+	background: var(--accent-color);
+}
+.tinted *{
+	color: var(--neutral-lighter-color);
+}
+
+.pale{
+	background: var(--neutral-lighter-color);
+}
+.pale *{
+	color: var(--neutral-darker-color);
+}
+
+
+/*
+ *	Elements:
+ */
+.fab-container{
+	position: fixed;
+	bottom: 2em;
+	right: 2em;
+
+}
+.fab{
+	position: relative;
+	display: block;
+
+	min-width: auto;
+	min-height: auto;
+	height: auto;
+	width: auto;
+
+	margin-top: 1em;
+
+	border-radius: 50%;
+   background-color: var(--accent-color) !important;
+   color: var(--neutral-lighter-color) !important;
+	transition: opacity, background, 0.3s ease;
+}
+.fab:active{
+   opacity: 0.7;
+   transition: opacity 0.1s ease;
+}
+
+.fab-container > .fab{
+	font-size: 1.3em;
+	padding: 0.6em;
+}
+.fab-container > .fab:last-child{
+	font-size: 1.6em;
+	padding: 0.8em;
+}
+
+li .primary{
+	font-size: 1.1em;
+	color: var(--neutral-dark-color);
+}
+li .secondary{
+	font-size: 0.8em;
+	color: var(--neutral-color);
+}
+
+.list{
+	padding: 1em 0;
+	margin-bottom: 6em;
+}
+.list > li{
+	position: relative;
+   padding: 1.2em 1em;
+   transition: background 0.3s ease;
+}
+.list > li:hover{
+	background: rgba(0, 0, 0, 0.06);
+	transition: background 0.2s ease;
+}

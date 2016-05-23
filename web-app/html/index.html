@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <!-- * Meta * -->
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width" />
+
+      <!-- * CSS * -->
+      <link rel="stylesheet" href="../css/lib/material.min.css">
+      <link rel="stylesheet" href="../css/lib/material-icons.css">
+      <link rel="stylesheet" href="../css/color_default.css">
+      <link rel="stylesheet" href="../css/common.css">
+
+      <link rel="stylesheet" href="../css/index.css">
+
+
+      <!-- * JS * -->
+      <script src="/socket.io/socket.io.js"></script>
+      <script src="../js/lib/material.min.js"></script>
+      <script src="../js/lib/jquery-2.2.4.min.js"></script>
+
+      <script src="../js/socket_load.js"></script>
+      <script src="../js/common.js"></script>
+      <script src="../js/index_dom.js"></script>
+      <script src="../js/index.js"></script>
+
+
+      <!-- * Title * -->
+      <title>Echoes</title>
+   </head>
+   <body>
+      <main>
+
+         <section id="lobby-section">
+            <div class="app-bar horizontal-layout tinted raised">
+               <span>Lobby</span>
+            </div>
+
+            <ul id="lobby-users-list" class="list pale raised">
+               <span class="empty-list-text box center">None users came yet</span>
+               <!--
+               <li class="horizontal-layout">
+                  <span class="primary">User's name</span>
+               </li>
+               -->
+            </ul>
+         </section>
+
+
+
+         <section id="chat-section">
+            <div class="app-bar tinted raised">
+               <span>Chat</span>
+            </div>
+            <ul id="chat-feed">
+
+            </ul>
+            <footer id="chat-message-input-container" class="box card pale raised">
+               <input type="text">
+            </footer>
+         </section>
+
+      </main>
+   </body>
+</html>
