@@ -1,30 +1,116 @@
+#background-app-bar{
+   height: 8em;
+}
+#body-container{
+   position: absolute;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   padding: 2em;
+   background: none;
+}
+
+
+/*
+ * Main frame:
+ */
 main{
+   position: relative;
+   width: 100%;
+   height: 100%;
+   padding: 2em;
+   overflow: hidden;
+}
+
+
+main > section{
+   overflow: hidden;
+}
+
+
+
+/*
+ * Panels:
+ */
+#auth-panel, #chat-panel{
    display: flex;
    flex-direction: row;
+   position: absolute;
    width: 200%;
    height: 100%;
    margin-left: 0%;
+   top: 0;
+   left: 0;
+
+
+   background: var(--neutral-light-color);
    transition: margin-left 0.4s ease;
 }
+#auth-panel{
+   z-index: 6;
+}
+#chat-panel{
+   z-index: 4;
+}
 
-main > *{
+
+
+
+#login-section > *, #register-section > *:not(.app-bar){
+   position: relative;
+   margin: 2.5em auto;
+   width: 35em;
+   max-width: 70%;
+}
+.input-container > input, .input-container > button{
+   position: relative;
+   display: block;
+   width: 100%;
+   margin: 1em 0;
+}
+.input-container > input{
+   padding: 0.5em 1em;
+   font-size: 1.1em;
+}
+
+
+#login-logo-container{
+   background: #f3a;
+   height: 8em;
+}
+
+#login-register-button, #register-cancel-button{
+   color: var(--accent-color);
+   font-weight: bold;
+}
+
+
+
+
+
+#chat-panel > *, #auth-panel > *{
    position: relative;
    height: 100%;
    width: 100%;
    overflow: hidden;
 }
+#auth-panel > *{
+   overflow-y: auto;
+}
 
-main.left-shifted{
+#chat-panel.left-shifted, #auth-panel.left-shifted{
    margin-left: -100%;
    transition: margin-left 0.4s ease;
 }
 
+
 @media(min-width: 700px){
-   main{
+   #chat-panel{
       width: 100%;
    }
 
-   main.left-shifted{
+   #chat-panel.left-shifted{
       margin-left: 0%;
    }
 
@@ -35,19 +121,19 @@ main.left-shifted{
 }
 
 
-#chat-section{
+#feed-section{
    display: flex;
    flex-direction: column;
 }
 
-#chat-feed{
+#feed-list{
    flex-grow: 1;
 }
 
-#chat-message-input-container{
+#feed-message-input-container{
    padding: 1.3em 1.5em;
 }
-#chat-message-input-container > input[type='text']{
+#feed-message-input-container > input[type='text']{
    padding: 0.8em 1em;
    font-size: 1.1em;
    width: 100%;

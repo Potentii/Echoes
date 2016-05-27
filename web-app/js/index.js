@@ -1,6 +1,6 @@
 var user_info = {};
 var user_list = [];
-
+/*
 $(document).ready(function(){
    user_info = {
       userName: storageGet_userName(),
@@ -39,7 +39,4 @@ $(document).ready(function(){
    socket.emit('need-id');
 
 });
-
-function onListingUpdated_user(){
-   enableEmptyListText_userListing(user_list.length===0);
-}
+*/

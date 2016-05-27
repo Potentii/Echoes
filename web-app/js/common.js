@@ -1,10 +1,16 @@
+const LAST_AUTH_STORAGE_KEY = "last-auth";
 
-const USER_NAME_STORAGE_KEY = "user-name";
 
-
-function storageSet_userName(userName){
-   localStorage.setItem(USER_NAME_STORAGE_KEY, userName);
+function getItem(key){
+   return JSON.parse(localStorage.getItem(key));
 }
-function storageGet_userName(){
-   return localStorage.getItem(USER_NAME_STORAGE_KEY);
+
+function setItem(key, value){
+   localStorage.setItem(key, JSON.stringify(value));
+}
+
+function updateAuthStatus(status){
+   var auth = getItem(LAST_AUTH_STORAGE_KEY);
+   auth.ok = status;
+   setItem(LAST_AUTH_STORAGE_KEY, auth);
 }

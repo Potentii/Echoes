@@ -40,11 +40,18 @@ a{
 ul{
 	list-style: none;
 }
-button:hover{
-   cursor: pointer;
+button:hover, button *:hover{
+	cursor: pointer;
 }
 button:focus, input:focus{
    outline: none;
+}
+footer{
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: auto;
 }
 
 
@@ -52,7 +59,7 @@ button:focus, input:focus{
  *	Body:
  */
 body{
-   background: var(--neutral-light-color);
+   background: var(--neutral-lighter-color);
    width: 100%;
    height: 100%;
    overflow-x: hidden;
@@ -92,9 +99,17 @@ body{
 	flex-flow: column;
 }
 .flex-horizontal-layout > *, .flex-vertical-layout > *{
+	position: relative;
 	flex-grow: 1;
 	flex-shrink: 1;
 }
+
+.expanded{
+	width: 100%;
+	height: 100%;
+}
+
+
 
 
 /*
@@ -103,14 +118,50 @@ body{
 .app-bar{
 	position: relative;
 	display: block;
-	width: 100%;
-	padding: 1.5em 1.5em;
+	width: 100%;/*
+	padding: 1.5em 1.5em 2em 1.5em;*/
 	font-size: 1.2em;
 }
+.app-bar > *{
+	padding: 1.5em;
+	vertical-align: middle;
+}
+.app-bar .fab{
+	display: inline-block;
+	background: none !important;
+	margin: 0.5em;
+	padding: 0.4em;
+	font-size: 1.7em;
+	box-shadow: none;
+}
+
+.tabs-container{
+	position: relative;
+	padding: 0;
+}
+.tabs-container > .tab{
+	position: relative;
+	display: inline-block;
+	font-size: 1em;
+	padding: 1em 0;
+	margin: 0;
+}
+
+.tab.selected:after{
+	content: '';
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	height: 3px;
+	width: 100%;
+	background: var(--accent-color);
+}
+
 
 .card{
    background: var(--neutral-lighter-color);
-   border-radius: 2px;
+	border-radius: 2px;
+	overflow: hidden;
 }
 
 .box{
@@ -120,12 +171,38 @@ body{
    margin: 0.5em 1em;
 }
 
-.vertical-line{
+.vertical-line, .horizontal-line{
 	position: relative;
+	margin: 2em 0;
+	background: rgba(0, 0, 0, 0.1);
+}
+.vertical-line{
 	display: inline-block;
 	width: 1px;
+	max-width: 1px;
 	height: 100%;
-	background: rgba(0, 0, 0, 0.06);
+}
+
+.horizontal-line{
+	display: block;
+	width: 100%;
+	height: 1px;
+	max-height: 1px;
+}
+
+.drawer{
+	position: absolute;
+	display: block;
+	width: 100%;
+	height: 100%;
+	background: #fff;
+	margin-left: -100%;
+	z-index: 10;
+	transition: margin-left 0.2s ease;
+}
+.drawer.right-shifted{
+	margin-left: 0;
+	transition: margin-left 0.2s ease;
 }
 
 
@@ -138,25 +215,35 @@ body{
 	transition: box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 div.raised, main.raised, nav.raised, section.raised{
-	box-shadow: 0 3px 6px -3px rgba(0, 0, 0, 0.26);
+	box-shadow: 0 3px 6px -3px rgba(0, 0, 0, 0.3);
 }
 header.raised{
-	box-shadow: 0 3px 6px -3px rgba(0, 0, 0, 0.26);
+	box-shadow: 0 3px 6px -3px rgba(0, 0, 0, 0.3);
 }
-button.raised:active {
+button.raised:active, a.raised:active {
 	box-shadow: 0 6px 11px 0 rgba(0, 0, 0, 0.2);
 	transition-delay: 0s;
 }
 
 .tinted{
 	background: var(--accent-color);
+	color: var(--neutral-lighter-color);
 }
 .tinted *{
 	color: var(--neutral-lighter-color);
 }
 
+.silver{
+	background: var(--neutral-silver-color);
+	color: var(--neutral-darker-color);
+}
+.silver *{
+	color: var(--neutral-darker-color);
+}
+
 .pale{
 	background: var(--neutral-lighter-color);
+	color: var(--neutral-darker-color);
 }
 .pale *{
 	color: var(--neutral-darker-color);
@@ -202,6 +289,18 @@ button.raised:active {
 	padding: 0.8em;
 }
 
+.flat-button{
+	position: relative;
+	padding: 1em;
+	color: var(--neutral-faded-color);
+}
+
+.flat-button.highlighted{
+	color: var(--accent-color);
+   font-weight: bold;
+}
+
+
 li .primary{
 	font-size: 1.1em;
 	color: var(--neutral-dark-color);
@@ -213,7 +312,6 @@ li .secondary{
 
 .list{
 	padding: 1em 0;
-	margin-bottom: 6em;
 }
 .list > li{
 	position: relative;
@@ -223,4 +321,53 @@ li .secondary{
 .list > li:hover{
 	background: rgba(0, 0, 0, 0.06);
 	transition: background 0.2s ease;
+}
+
+.list-fab{
+	margin-bottom: 6em;
+}
+
+.list-bottom-button{
+	padding: 0.6em;
+}
+
+
+.button-container{
+	position: relative;
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+}
+.button-container > *{
+	position: relative;
+	flex-grow: 1;
+	height: 100%;
+}
+.button-container > .material-icons{
+	font-size: 1.5em;
+}
+
+.black-screen{
+	position: absolute;
+	top: 0;
+	left: 0;
+	background: rgba(0, 0, 0, 0.8);
+	z-index: 8;
+}
+
+.dialog-container{
+	position: relative;
+	width: 25em;
+	max-width: 80%;
+	margin: 0 auto;
+	padding: 4em 0;
+}
+.dialog-container > .content{
+	max-height: 100%;
+}
+
+.dialog-container .button-container{
+	width: 50%;
+	float: right;
+	height: 100%;
 }

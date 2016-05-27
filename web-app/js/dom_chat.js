@@ -5,7 +5,7 @@ var getUserListItem = (user) => {
 
    $('<span>')
       .addClass('primary')
-      .text(user.userName)
+      .text(user.name)
       .appendTo(item);
 
    return item;
@@ -37,14 +37,5 @@ function enableEmptyListText_userListing(enable){
          $('#lobby-users-list > .empty-list-text').hide();
       }
       emptyListTextEnabled_userListing = enable;
-   }
-}
-
-
-function enableChatSection(enable){
-   if(enable){
-      $('main').addClass('left-shifted');
-   } else{
-      $('main').removeClass('left-shifted');
    }
 }
