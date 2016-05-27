@@ -1,20 +1,16 @@
-# HTTP-comm
-> HTTP-comm is a simple chat application made with node.js.
+# Echoes
+> Echoes is a web chat application made with node.js
 >
 > This project has academic/study purposes only, so is not recommended to use it on other scenarios.
 
 
 
-## How does it works?
-Every instance of HTTP-comm actually is a client and a server, so it can send and receive requests.
-
-It sends messages with ajax, and receives it with an Express http server.
-
- 
-
 ## Running
 You should have `Node.js` installed on your machine before trying to run this project.
-- Go to project directory, and install all dependencies:
+
+It also needs you to have a `MySQL` instance running on `port:3306` with `user:root, password:root`.
+- Run all sql scripts on 'server-app > sql' directory to setup the database.
+- Go to 'server-app' directory inside this project, and install all dependencies:
 ```sh
 $ npm install
 ```
@@ -22,20 +18,26 @@ $ npm install
 ```sh
 $ npm start
 ```
-
-
-
-## Building
-In order to build it as a Windows application, just run the `build` script:
-```sh
-$ npm run build
+- It will start the server, so you can now access the application with the following URL on your browser:
+```
+http://localhost:3000/echoes
 ```
 
 
 
+## Building
+In order to build the server as a Windows x64 application, just run the `build` script:
+```sh
+$ npm run build
+```
+More info on electron-packager's build script you should see [here](https://github.com/electron-userland/electron-packager/blob/master/usage.txt) or by simply running `electron-packager --help`
+
+
 ## Dependencies
 - [Electron](http://electron.atom.io/)
+- [Socket.io](http://socket.io/)
 - [Express](http://expressjs.com/)
+- [MySQL](https://github.com/felixge/node-mysql)
 - [jQuery](https://jquery.com/)
 - [electron-packager](https://github.com/electron-userland/electron-packager)
 - [body-parser](https://github.com/expressjs/body-parser)
