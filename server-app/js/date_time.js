@@ -1,27 +1,4 @@
-const LAST_AUTH_STORAGE_KEY = "last-auth";
-var currentUserId = null;
-
-function getItem(key){
-   return JSON.parse(localStorage.getItem(key));
-}
-
-function setItem(key, value){
-   localStorage.setItem(key, JSON.stringify(value));
-}
-
-function updateAuthStatus(status){
-   var auth = getItem(LAST_AUTH_STORAGE_KEY);
-   auth.ok = status;
-   setItem(LAST_AUTH_STORAGE_KEY, auth);
-}
-
-
-
-
-function getFormattedDateTime(dateToFormat){
-   return getFormattedDate(dateToFormat) + ' - ' + getFormattedTime(dateToFormat);
-}
-function getFormattedDate(dateToFormat){
+var getFormattedDate = function(dateToFormat){
    var d = new Date(dateToFormat || Date.now()),
       month = '' + (d.getMonth() + 1),
       day = '' + d.getDate(),
@@ -32,9 +9,9 @@ function getFormattedDate(dateToFormat){
 
    var date = [day, month, year].join('/');
    return date;
-}
+};
 
-function getFormattedTime(dateToFormat){
+var getFormattedTime = function(dateToFormat){
    var d = new Date(dateToFormat || Date.now()),
       hours = '' + d.getHours(),
       minutes = '' + d.getMinutes(),
@@ -46,4 +23,14 @@ function getFormattedTime(dateToFormat){
 
    var time = [hours, minutes, seconds].join(':');
    return time;
-}
+};
+
+var getFormattedDateTime = function(dateToFormat){
+   return getFormattedDate(dateToFormat) + ' - ' + getFormattedTime(dateToFormat);
+};
+
+module.exports = {
+   getFormattedTime: getFormattedTime,
+   getFormattedDate: getFormattedDate,
+   getFormattedDateTime: getFormattedDateTime
+};

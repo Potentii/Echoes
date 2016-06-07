@@ -66,6 +66,11 @@ function sendLoginRequest(vLogin, vPassword){
       // *Hiding login section:
       dom_cleanInputs_loginSection();
       enableAuthPanel(false);
+
+      // *Saving current user's id:
+      currentUserId = res.id;
+
+      updateUserNameText(res.name);
    });
 
 

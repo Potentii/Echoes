@@ -2,50 +2,45 @@ const PANEL_LEFT = 'left';
 const PANEL_RIGHT = 'right';
 
 
+var addContactDialog;
+var chatManagingDialog;
 
 $(document).ready(function(){
    $('body > .black-screen').hide();
+
+   addContactDialog = new AddContactDialog();
+   chatManagingDialog = new ChatManagingDialog();
 });
+
+
+function updateUserNameText(name){
+   $('#lobby-user-name-text').text(name);
+}
 
 
 
 /*
  * Panels enabling effect
  */
-var contactPicker_enabled = false;
-function enableContactPicker(enable){
-   enablePanel(enable, contactPicker_enabled, $('#chat-managing-dialog'));
-   addCloseListenerToDialog(enable, $('#chat-managing-dialog'), enableContactPicker);
-   contactPicker_enabled = enable;
-}
-var addContact_enabled = false;
-function enableAddContact(enable){
-   enablePanel(enable, addContact_enabled, $('#add-contact-dialog'));
-   addCloseListenerToDialog(enable, $('#add-contact-dialog'), enableAddContact);
-   addContact_enabled = enable;
-}
-
-
-
 var authPanel_enabled = true;
 function enableAuthPanel(enable){
-   enablePanel(enable, authPanel_enabled, $('#auth-panel'));
+   enable_dom(enable, authPanel_enabled, $('#auth-panel'));
    authPanel_enabled = enable;
 }
 
 var chatPanel_enabled = true;
 function enableChatPanel(enable){
-   enablePanel(enable, chatPanel_enabled, $('#chat-panel'));
+   enable_dom(enable, chatPanel_enabled, $('#chat-panel'));
    chatPanel_enabled = enable;
 }
 
 
-function enablePanel(enable, flag, panel_dom){
+function enable_dom(enable, flag, element_dom){
    if(enable != flag){
       if(enable){
-         panel_dom.fadeIn(300);
+         element_dom.fadeIn(300);
       } else {
-         panel_dom.fadeOut(300);
+         element_dom.fadeOut(300);
       }
    }
 }
@@ -54,7 +49,6 @@ function enablePanel(enable, flag, panel_dom){
 function addCloseListenerToDialog(enable, dialog_dom, enable_function){
    if(enable){
       dialog_dom.on('click', function(e){
-         console.log('d');
          if(this == e.target){
             enable_function(false);
          }
@@ -93,4 +87,24 @@ function slidePanel(panelSide, flag, panel_dom){
          break;
       }
    }
+}
+
+
+
+// *Debug only:
+function arrayToString(array, value_func){
+   if(!value_func){
+      value_func = v => v;
+   }
+
+   var array_str = '[';
+   for(var i=0; i<array.length; i++){
+      array_str += value_func(array[i]);
+      if(i<array.length-1){
+         array_str += ', ';
+      } else{
+         array_str += ']';
+      }
+   }
+   return array_str;
 }

@@ -29,35 +29,36 @@
       <script src="../js/dom_auth.js"></script>
       <script src="../js/dom_chat.js"></script>
 
+      <script src="../js/ListHandler.js"></script>
+      <script src="../js/SelectableListHandler.js"></script>
+      <script src="../js/DialogHandler.js"></script>
       <script src="../js/ChatManagingDialog.js"></script>
       <script src="../js/AddContactDialog.js"></script>
 
       <script src="../js/sec_login.js"></script>
       <script src="../js/sec_register.js"></script>
       <script src="../js/sec_lobby.js"></script>
-      <script src="../js/sec_chat.js"></script>
+      <script src="../js/sec_feed.js"></script>
 
 
       <!-- * Title * -->
       <title>Echoes</title>
    </head>
    <body>
-
       <div id="background-app-bar" class="app-bar tinted raised"></div>
+
 
 
       <div id="body-container">
          <main class="card raised">
-
-
             <div id="auth-panel">
 
                <section id="login-section">
                   <div id="login-logo-container" class="box card raised">
                   </div>
-                  <form id="login-form" class="input-container box card raised">
-                     <input id="login-login-input" type="text" placeholder="Login" pattern="\S+" autocomplete="true" required>
-                     <input id="login-password-input" type="password" placeholder="Password" pattern="\S+" autocomplete="false" required>
+                  <form id="login-form" class="form box card raised">
+                     <input id="login-login-input" type="text" placeholder="Login" pattern="\S+" autocomplete="on" required>
+                     <input id="login-password-input" type="password" placeholder="Password" pattern="\S+" autocomplete="off" required>
                      <div class="horizontal-line"></div>
                      <button id="login-confirm-button" type="submit" class="mdl-js-button mdl-js-ripple-effect box card tinted raised">Login</button>
                      <button id="login-register-button" type="button" class="mdl-js-button mdl-js-ripple-effect box card">Register</button>
@@ -69,9 +70,9 @@
                   <div class="app-bar horizontal-layout raised silver">
                      <span>Register form</span>
                   </div>
-                  <form id="register-form" class="input-container box card raised">
-                     <input id="register-name-input" type="text" placeholder="Name" pattern="\S+" autocomplete="false" required>
-                     <input id="register-login-input" type="text" placeholder="Login" pattern="\S+" autocomplete="false" required>
+                  <form id="register-form" class="form box card raised">
+                     <input id="register-name-input" type="text" placeholder="Name" pattern="\S+" autocomplete="off" required>
+                     <input id="register-login-input" type="text" placeholder="Login" pattern="\S+" autocomplete="off" required>
                      <input id="register-password-input" type="password" placeholder="Password" pattern="\S+" autocomplete="false" required>
                      <div class="horizontal-line"></div>
                      <button id="register-confirm-button" type="submit" class="mdl-js-button mdl-js-ripple-effect box card tinted raised">OK</button>
@@ -83,12 +84,11 @@
 
 
 
-
             <div id="chat-panel">
 
                <section id="lobby-section">
                   <div class="app-bar horizontal-layout silver raised">
-                     <span>Lobby</span>
+                     <span id="lobby-user-name-text"></span>
                   </div>
                   <ul id="lobby-chats-list" class="list">
                      <span class="empty-list-text box center">No chats started yet</span>
@@ -106,50 +106,53 @@
                   </footer>
                </section>
 
-               <div class="vertical-line" style="margin:0"></div>
+
+               <div id="chat-vertical-line" class="vertical-line"></div>
+
 
                <section id="feed-section">
                   <div class="app-bar horizontal-layout silver raised">
-                     <span>Chat</span>
+                     <span id="feed-chat-name-text">[Chat name]</span>
                   </div>
-                  <ul id="feed-list">
+                  <ul id="feed-list" class="list">
                   </ul>
                   <footer>
-                     <div id="feed-message-input-container" class="card box pale raised">
-                        <input type="text">
-                     </div>
+                     <form id="feed-message-input-container" class="card box pale raised flex-horizontal-layout">
+                        <input id="feed-message-input" type="text" disabled="true" placeholder="Type here..." pattern="^(?![^\S]+$).*$" autocomplete="off" required>
+                        <button type="submit" class="material-icons mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored raised fab">send</button>
+                     </form>
                   </footer>
                </section>
 
             </div>
-
-
          </main>
       </div>
 
 
+      <!--
       <div id="chat-managing-dialog" class="black-screen expanded">
          <div class="dialog-container">
             <div class="content card raised">
                <div class="app-bar vertical-layout raised silver">
                   <span></span>
                </div>
-               <div class="input-container">
-                  <input type="text" placeholder="Chat name">
-               </div>
+               <form id="chat-managing-form" class="input-container">
+                  <input id="chat-managing-name-input" type="text" disabled="true" pattern="\S+" autocomplete="false" placeholder="Chat name" required>
+
+               </form>
 
                <ul id="chat-managing-user-list" class="list">
                   <span class="empty-list-text box center">No contacts found</span>
 
                </ul>
                <div class="button-container">
-                  <button id="chat-managing-cancel-button" type="button" class="mdl-js-button mdl-js-ripple-effect flat-button">CANCEL</button>
-                  <button id="chat-managing-ok-button" type="button" class="mdl-js-button mdl-js-ripple-effect flat-button highlighted">SAVE</button>
+                  <button id="chat-managing-cancel-button" type="button" class="cancel-button mdl-js-button mdl-js-ripple-effect flat-button">CANCEL</button>
+                  <button id="chat-managing-ok-button" type="submit" form="chat-managing-form" disabled="true" class="ok-button mdl-js-button mdl-js-ripple-effect flat-button highlighted">SAVE</button>
                </div>
             </div>
          </div>
       </div>
-
+      -->
 
       <div id="add-contact-dialog" class="black-screen expanded">
          <div class="dialog-container">
@@ -158,7 +161,7 @@
                   <span>Add contact</span>
                </div>
                <div class="input-container">
-                  <input id="add-contact-search-input" type="text" placeholder="Search for users...">
+                  <input id="add-contact-search-input" type="text" disabled="true" placeholder="Search for users..." autocomplete="off">
                </div>
 
                <ul id="add-contact-user-list" class="list">
@@ -166,8 +169,8 @@
 
                </ul>
                <div class="button-container">
-                  <button id="add-contact-cancel-button" type="button" class="mdl-js-button mdl-js-ripple-effect flat-button">CANCEL</button>
-                  <button id="add-contact-ok-button" type="button" class="mdl-js-button mdl-js-ripple-effect flat-button highlighted">ADD</button>
+                  <button id="add-contact-cancel-button" type="button" class="cancel-button mdl-js-button mdl-js-ripple-effect flat-button">CANCEL</button>
+                  <button id="add-contact-ok-button" type="button" disabled="true" class="ok-button mdl-js-button mdl-js-ripple-effect flat-button highlighted">ADD</button>
                </div>
             </div>
          </div>

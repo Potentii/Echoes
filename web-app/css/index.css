@@ -104,6 +104,10 @@ main > section{
    transition: margin-left 0.4s ease;
 }
 
+#chat-vertical-line{
+   display: none;
+}
+
 
 @media(min-width: 700px){
    #chat-panel{
@@ -112,6 +116,11 @@ main > section{
 
    #chat-panel.left-shifted{
       margin-left: 0%;
+   }
+
+   #chat-vertical-line{
+      display: inline-block;
+      margin: 0;
    }
 
    #lobby-section{
@@ -128,6 +137,18 @@ main > section{
 
 #feed-list{
    flex-grow: 1;
+   overflow-y: auto;
+}
+#feed-list li[data-mine="true"]{
+   text-align: right;
+}
+
+#feed-list .message-info{
+   color: var(--neutral-faded-color);
+}
+
+#feed-section footer{
+   position: relative;
 }
 
 #feed-message-input-container{
@@ -135,7 +156,12 @@ main > section{
 }
 #feed-message-input-container > input[type='text']{
    padding: 0.8em 1em;
-   font-size: 1.1em;
-   width: 100%;
-
+   font-size: 1.15em;
+   min-width: 0;
+   margin-right: 2em;
+   color: var(--neutral-color);
+}
+#feed-message-input-container > .fab{
+   flex-grow: 0;
+   flex-shrink: 0;
 }

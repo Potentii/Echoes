@@ -30,7 +30,8 @@ In order to build the server as a Windows x64 application, just run the `build` 
 ```sh
 $ npm run build
 ```
-More info on electron-packager's build script you should see [here](https://github.com/electron-userland/electron-packager/blob/master/usage.txt) or by simply running `electron-packager --help`
+For more info on electron-packager's build script you should see [here](https://github.com/electron-userland/electron-packager/blob/master/usage.txt) or by simply running `electron-packager --help`
+
 
 
 ## Dependencies
@@ -38,10 +39,6 @@ More info on electron-packager's build script you should see [here](https://gith
 - [Socket.io](http://socket.io/)
 - [Express](http://expressjs.com/)
 - [MySQL](https://github.com/felixge/node-mysql)
-- [jQuery](https://jquery.com/)
-- [electron-packager](https://github.com/electron-userland/electron-packager)
-- [body-parser](https://github.com/expressjs/body-parser)
-- [internal-ip](https://github.com/sindresorhus/internal-ip)
 
 
 

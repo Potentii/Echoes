@@ -1,41 +1,42 @@
-//var user_list = [];
-//var user_info = {};
-
 $(document).ready(function(){
 
    $('#add-chat-button').click(addChatButton_onClick);
    $('#add-contact-button').click(addContactButton_onClick);
-   // TODO load my chats from server
-   /*
-   socket.on('user-list-update', (data) => {
-      user_list = data;
-      updateUserListing(user_list);
-      userListing_onUpdate();
+
+   var listHandler =
+      new SelectableListHandler(
+         $('#lobby-chats-list'),
+         getChatListItem,
+         (chat1, chat2) => chat1.id == chat2.id,
+         SINGLE_SELECTION
+      );
+
+   socket.on('chat-list-update', (chats) => {
+      listHandler.update(chats);
    });
 
-   socket.on('user-connected', (user) => {
-      user_list.push(user);
-      addUserOnListing(user);
-      userListing_onUpdate();
+   socket.on('chat-received-message', (data) => {
+      listHandler.findIndex(listHandler.getArray(), data.chat);
    });
 
-   socket.on('user-disconnected', (id) => {
-      user_list = user_list.filter(val => id!=val.id);
-      removeUserFromListing(id);
-      userListing_onUpdate();
+
+   listHandler.select(function(selection, item){
+      var chatId = item.id;
+      loadFeed(chatId);
    });
-   */
 });
 
+
+
 function addChatButton_onClick(){
-   chatManagingDialog.load({
+   chatManagingDialog.show({
       id: null,
       name: '',
       users: []
    });
 }
 function addContactButton_onClick(){
-   addContactDialog.load();
+   addContactDialog.show();
 }
 
 

@@ -43,7 +43,7 @@ ul{
 button:hover, button *:hover{
 	cursor: pointer;
 }
-button:focus, input:focus{
+button:focus, input:focus, select:focus{
    outline: none;
 }
 footer{
@@ -71,47 +71,6 @@ body{
  * Util classes
  * ========== * ========== * ========== * ==========
  */
-/*
- *	Layout:
- */
-.center{
-	margin: 0 auto;
-	text-align: center;
-}
-
-.horizontal-layout > *{
-	position: relative;
-	display: inline-block;
-	height: 100%;
-}
-.vertical-layout > *{
-	position: relative;
-	display: block;
-	width: 100%;
-}
-
-.flex-horizontal-layout{
-	display: flex;
-	flex-flow: row;
-}
-.flex-vertical-layout{
-	display: flex;
-	flex-flow: column;
-}
-.flex-horizontal-layout > *, .flex-vertical-layout > *{
-	position: relative;
-	flex-grow: 1;
-	flex-shrink: 1;
-}
-
-.expanded{
-	width: 100%;
-	height: 100%;
-}
-
-
-
-
 /*
  *	Regions:
  */
@@ -207,6 +166,46 @@ body{
 
 
 /*
+ *	Layout:
+ */
+.center{
+	margin: 0 auto;
+	text-align: center;
+}
+
+.horizontal-layout > *{
+	position: relative;
+	display: inline-block;
+	height: 100%;
+}
+.vertical-layout > *{
+	position: relative;
+	display: block;
+	width: 100%;
+}
+
+.flex-horizontal-layout{
+	display: flex;
+	flex-flow: row;
+}
+.flex-vertical-layout{
+	display: flex;
+	flex-flow: column;
+}
+.flex-horizontal-layout > *, .flex-vertical-layout > *{
+	position: relative;
+	flex-grow: 1;
+	flex-shrink: 1;
+}
+
+.expanded{
+	width: 100%;
+	height: 100%;
+}
+
+
+
+/*
  *	Effects:
  */
 .raised{
@@ -261,14 +260,15 @@ button.raised:active, a.raised:active {
 }
 .fab{
 	position: relative;
-	display: block;
 
 	min-width: auto;
 	min-height: auto;
 	height: auto;
 	width: auto;
 
-	margin-top: 1em;
+	padding: 0.8em;
+
+	font-size: 1.6em;
 
 	border-radius: 50%;
    background-color: var(--accent-color) !important;
@@ -281,6 +281,8 @@ button.raised:active, a.raised:active {
 }
 
 .fab-container > .fab{
+	display: block;
+	margin-top: 1em;
 	font-size: 1.3em;
 	padding: 0.6em;
 }
@@ -300,6 +302,53 @@ button.raised:active, a.raised:active {
    font-weight: bold;
 }
 
+.flat-button:disabled{
+	color: var(--neutral-faded-color);
+	opacity: 0.5;
+}
+
+
+
+.form > input, .form > select, .form > button, .form > .label, .form > .radio-group{
+   position: relative;
+   display: block;
+   width: 100%;
+   margin: 1em 0;
+}
+.form > input, .form > select, .form > .label, .form > .radio-group{
+   padding: 0.5em 1em;
+   font-size: 1.1em;
+}
+.form > .label{
+	color: var(--neutral-color);
+}
+.form > select, .form > select > option[value=""]{
+	color: var(--neutral-faded-color);
+}
+.form > select > option{
+	color: var(--neutral-color);
+}
+
+
+.radio-group > *{
+	position: relative;
+	display: block;
+	width: 100%;
+	margin: 0.5em 0;
+	color: var(--neutral-faded-color);
+}
+.radio-group > .label{
+   font-size: 0.8em;
+}
+.radio-group > label, .radio-group > input[type="radio"]{
+	padding: 0.5em 1em;
+   font-size: 0.7em;
+}
+.radio-group input[type="radio"]{
+	margin-right: 0.5em;
+}
+
+
 
 li .primary{
 	font-size: 1.1em;
@@ -314,13 +363,18 @@ li .secondary{
 	padding: 1em 0;
 }
 .list > li{
+
 	position: relative;
+	
    padding: 1.2em 1em;
    transition: background 0.3s ease;
 }
 .list > li:hover{
 	background: rgba(0, 0, 0, 0.06);
 	transition: background 0.2s ease;
+}
+.list > .selected{
+	background: rgba(0, 0, 0, 0.08);
 }
 
 .list-fab{
@@ -357,7 +411,7 @@ li .secondary{
 
 .dialog-container{
 	position: relative;
-	width: 25em;
+	width: 30em;
 	max-width: 80%;
 	margin: 0 auto;
 	padding: 4em 0;
