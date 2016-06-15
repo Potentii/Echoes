@@ -22,12 +22,28 @@ const getFeedListItem = (message) => {
    var itsMine = currentUserId == message.origin_user_fk;
    var item = $('<li>')
       .attr('data-mine', itsMine)
-      .addClass('vertical-layout');
+      .addClass('flex-vertical-layout');
 
    $('<span>')
       .addClass('secondary message-info')
       .text((itsMine?'me':message.origin_user_name) + ' - ' + getFormattedTime(message.date))
       .appendTo(item);
+
+
+   if(message.attachment_file_path){
+      // *If there's any attachment:
+      var attachmentNode = $('<span>')
+         .addClass('message-attachment');
+
+      if(/image\//i.test(message.attachment_mime_type)){
+         // *If it's an image:
+         attachmentNode.attr('data-type', 'image');
+         attachmentNode.css('background-image', 'url(' + message.attachment_file_path + ')');
+         attachmentNode.addClass('raised card');
+      }
+      attachmentNode.appendTo(item);
+   }
+
 
    $('<span>')
       .addClass('primary')

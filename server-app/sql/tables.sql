@@ -1,4 +1,4 @@
-drop schema `echoes_schema`;
+-- drop schema `echoes_schema`;
 create schema if not exists `echoes_schema`;
 use `echoes_schema`;
 
@@ -8,7 +8,9 @@ drop view if exists `chat_users_view`;
 drop view if exists `chat_messages_view`;
 drop view if exists `user_chats_view`;
 
+
 drop table if exists `message`;
+drop table if exists `attachment`;
 drop table if exists `group`;
 drop table if exists `chat`;
 drop table if exists `contact`;
@@ -56,17 +58,30 @@ create table if not exists `group`(
 );
 
 
+create table if not exists `attachment`(
+	`id` BIGINT unsigned not null auto_increment unique,
+    `file_path` TEXT not null,
+    `mime_type` VARCHAR(45) not null,
+    
+    primary key(`id`)
+);
+
+
 create table if not exists `message`(
 	`id` BIGINT unsigned not null auto_increment unique,
     `text` TEXT not null,
     `date` DATETIME not null default now(),
     `origin_user_fk` BIGINT unsigned not null,
+    `attachment_fk` BIGINT unsigned,
     `chat_fk` BIGINT unsigned not null,
     
     foreign key(`origin_user_fk`) references `user`(`id`),
+    foreign key(`attachment_fk`) references `attachment`(`id`),
     foreign key(`chat_fk`) references `chat`(`id`),
     primary key(`id`)
 );
+
+
 
 
 
@@ -94,12 +109,20 @@ create view `chat_users_view` as
 create view `chat_messages_view` as
 	select
 		`chat`.`id` as 'chat',
+        
 		`message`.`id`,
 		`message`.`text`,
         `message`.`date`,
 		`message`.`origin_user_fk`,
-        `user`.`name` as 'origin_user_name'
+        
+        `user`.`name` as 'origin_user_name',
+        
+        `attachment`.`file_path` as 'attachment_file_path',
+        `attachment`.`mime_type` as 'attachment_mime_type'
+        
 		from `message`
+        left join `attachment`
+			on `message`.`attachment_fk` = `attachment`.`id`
 		inner join `chat`
 			on `message`.`chat_fk` = `chat`.`id`
 		inner join `user`
@@ -183,7 +206,7 @@ create procedure chat_get_feed(in arg_chat_id BIGINT)
 begin
 	set autocommit = 0;
 	start transaction;
-		select * from `chat_messages_view` where `chat` = arg_chat_id;
+		select * from `chat_messages_view` where `chat` = arg_chat_id order by `id` asc;
 	commit;
 end $$
 delimiter ;
@@ -191,13 +214,26 @@ delimiter ;
 
 drop procedure if exists chat_send_message;
 delimiter $$
-create procedure chat_send_message(in arg_chat_id BIGINT, in arg_user_id BIGINT, in arg_message_text TEXT)
+create procedure chat_send_message(in arg_chat_id BIGINT, in arg_user_id BIGINT, in arg_message_text TEXT, 
+	in arg_attachment_file_path TEXT, in arg_attachment_mime_type VARCHAR(45))
 begin
+	declare var_attachment_fk BIGINT default null;
 	set autocommit = 0;
 	start transaction;
 		if user_is_on_chat(arg_user_id, arg_chat_id) then
-			-- If user is on this chat, record the message:
-            insert into `message` (`text`, `origin_user_fk`, `chat_fk`) values (arg_message_text, arg_user_id, arg_chat_id);
+			-- If user is on this chat:
+            
+			-- If the attachment related attributes isn't null, then:
+            if arg_attachment_file_path is not null and arg_attachment_mime_type is not null then
+				insert into `attachment` (`file_path`, `mime_type`) values (arg_attachment_file_path, arg_attachment_mime_type);
+                set var_attachment_fk = LAST_INSERT_ID();
+			end if;
+        
+			-- Recording the message:
+            insert into `message` (`text`, `origin_user_fk`, `chat_fk`, `attachment_fk`) values (arg_message_text, arg_user_id, arg_chat_id, var_attachment_fk);
+            
+            
+            -- Returns the created message:
 			select * from `chat_messages_view` where `chat_messages_view`.`id` = LAST_INSERT_ID();
         else
 			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'User can\'t send messages to this chat';

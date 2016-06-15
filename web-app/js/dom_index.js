@@ -4,13 +4,62 @@ const PANEL_RIGHT = 'right';
 
 var addContactDialog;
 var chatManagingDialog;
+var dragging = 0;
 
 $(document).ready(function(){
    $('body > .black-screen').hide();
 
    addContactDialog = new AddContactDialog();
    chatManagingDialog = new ChatManagingDialog();
+
+
+   // *Handling global drag events:
+   $(document).on('dragover', function(e){
+      e.preventDefault();
+      e.stopPropagation();
+   });
+
+   $(document).on('dragenter', function(e){
+      e.preventDefault();
+      e.stopPropagation();
+      if(dragging === 0){
+         for(var i=0; i<dropZones.length; i++){
+            dropZones[i].addClass('dragging');
+         }
+      }
+      dragging++;
+   });
+
+   $(document).on('dragleave', function(e){
+      e.preventDefault();
+      e.stopPropagation();
+      dragging--;
+      if (dragging === 0) {
+         for(var i=0; i<dropZones.length; i++){
+            dropZones[i].removeClass('dragging');
+         }
+      }
+   });
+   
+   $(document).on('drop', function(e){
+      e.preventDefault();
+      e.stopPropagation();
+      for(var i=0; i<dropZones.length; i++){
+         dropZones[i].removeClass('dragging');
+      }
+      dragging = 0;
+   });
 });
+
+
+var dropZones = [];
+function addDropZone(dom_element){
+   dropZones.push(dom_element);
+}
+function removeDropZone(dom_element){
+   dom_element.removeClass('dragging');
+   dropZones.splice(dom_element, 1);
+}
 
 
 function updateUserNameText(name){

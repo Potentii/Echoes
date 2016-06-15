@@ -39,6 +39,7 @@ For more info on electron-packager's build script you should see [here](https://
 - [Socket.io](http://socket.io/)
 - [Express](http://expressjs.com/)
 - [MySQL](https://github.com/felixge/node-mysql)
+- [UUID](https://github.com/defunctzombie/node-uuid)
 
 
 

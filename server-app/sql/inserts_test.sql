@@ -1,5 +1,6 @@
 use `echoes_schema`;
 
+
 -- 22
 insert into `user` (`name`, `login`, `password`) values ('Shawn Evans', 'sevans0', '7dbV2YzNOCV');
 insert into `user` (`name`, `login`, `password`) values ('Frank Turner', 'fturner1', '0zkBIER1cijR');
@@ -55,3 +56,8 @@ insert into `contact` (`me_user_fk`, `contact_user_fk`) values (15, 7);
 
 call chat_create(6, 'chat test');
 call chat_add_user(1, 7);
+
+call chat_send_message(1, 6, 'Hello', null, null);
+call chat_send_message(1, 7, 'Hey', null, null);
+call chat_send_message(1, 6, 'How\'re you doing?', null, null);
+call chat_send_message(1, 7, 'nice, and you?', null, null);

@@ -112,14 +112,17 @@
 
                <section id="feed-section">
                   <div class="app-bar horizontal-layout silver raised">
-                     <span id="feed-chat-name-text">[Chat name]</span>
+                     <span id="feed-chat-name-text">Welcome to Echoes</span>
                   </div>
                   <ul id="feed-list" class="list">
                   </ul>
                   <footer>
                      <form id="feed-message-input-container" class="card box pale raised flex-horizontal-layout">
-                        <input id="feed-message-input" type="text" disabled="true" placeholder="Type here..." pattern="^(?![^\S]+$).*$" autocomplete="off" required>
-                        <button type="submit" class="material-icons mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored raised fab">send</button>
+                        <div id="feed-message-dragging-div">
+                           <span>Drag files here</span>
+                        </div>
+                        <input id="feed-message-input" name="oi" type="text" disabled="true" placeholder="Type here..." pattern="^(?![^\S]+$).*$" autocomplete="off" required>
+                        <button id="feed-message-button" type="submit" class="material-icons mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored raised fab">send</button>
                      </form>
                   </footer>
                </section>

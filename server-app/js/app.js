@@ -7,7 +7,11 @@ var path = require('path');
 const datetime = require('./date_time.js');
 
 const CHAT_ROOM_PREFIX = 'chat-';
+const ATTACHMENT_FOLDER_NAME = 'attachment';
 var user_list = [];
+var dynamicDir;
+var attachmentDir;
+
 
 // *Serving the web pages:
 app.use(express.static(path.join(__dirname, '../../web-app/')));
@@ -17,6 +21,7 @@ app.get('/echoes', (req, res) => {
 });
 
 
+// *Setting up database connection:
 var conn = mysql.createConnection({
    host: "localhost",
    port: 3306,
@@ -213,22 +218,50 @@ io.on('connection', (socket) => {
     * Sends a message to requested chat
     * - It emits the message for all users on chat's room
     *
-    * @param data {message: The message text, chatId: The chat id}
+    * @param data {message: The message text, chatId: The chat id, attachment: {base64: The base64 url, extension: The original file's extension}}
     */
    socket.on('feed-send-message-request', (data) => {
       // *Searching for the user, based on its clientId:
       var originUser = findUser_byClientId(socket.id);
-      var messageData = {
-         user: originUser,
-         message: data.message,
-         chatId: data.chatId
+
+      var attachment_file_path = null;
+      var attachment_mime_type = null;
+
+      // *It records the message and its attachments if any on database, and then sends it back to all users on chat:
+      var sendMessage = () => {
+         // *It will persist the message on database if the current user could send messages to this chat:
+         conn.query('call ??(?)', ['chat_send_message', [data.chatId, originUser.id, data.message, attachment_file_path, attachment_mime_type]], (err, resultSet) => {
+            if(err) throw err;
+            // TODO if error, tell the origin user
+            io.sockets.in(CHAT_ROOM_PREFIX + data.chatId).emit('message-received', resultSet[0][0]);
+         });
       };
-      // *It will persist the message on database if the current user could send messages to this chat:
-      conn.query('call ??(?)', ['chat_send_message', [data.chatId, originUser.id, data.message]], (err, resultSet) => {
-         if(err) throw err;
-         // TODO if error, tell the origin user
-         io.sockets.in(CHAT_ROOM_PREFIX + data.chatId).emit('message-received', resultSet[0][0]);
-      });
+
+
+      if(data.attachment !== null && data.attachment.base64 !== null && data.attachment.extension !== null){
+         // *If the message contains an attachment:
+         var uuid = require('uuid');
+         var fs = require('fs');
+
+         // *Getting attachment's mime type:
+         attachment_mime_type = /^data:(.*);/.exec(data.attachment.base64)[1];
+         // *Getting it's actual content:
+         var base64Content = /^data:.*;base64,(.*)/i.exec(data.attachment.base64)[1];
+
+         // *Setting up its location and name based on an uuid code:
+         attachment_file_path = '/' + ATTACHMENT_FOLDER_NAME + '/' + uuid.v1() + '.' + data.attachment.extension;
+         var filePath = dynamicDir + attachment_file_path;
+
+         // *Storing the file on disk:
+         fs.writeFile(filePath, base64Content, 'base64', function(err){
+            if(err) throw err;
+            // *Sending the message:
+            sendMessage();
+         });
+      } else{
+         // *If it's just a simple text message:
+         sendMessage();
+      }
    });
 
 
@@ -248,21 +281,6 @@ io.on('connection', (socket) => {
       }
    });
 });
-
-
-
-
-function stopServer(err){
-   console.log('>> Killing server...');
-   if(err){
-      console.error(err);
-      process.exit(1);
-      throw err;
-   } else{
-      process.exit(0);
-   }
-}
-
 
 
 
@@ -288,7 +306,6 @@ function findUserIndex_byLogin(login){
 
 
 
-
 function getSearchableText(text){
    try{
       text = text.match(/(?:[^\s"]+|"[^"]*")+/g);
@@ -301,6 +318,17 @@ function getSearchableText(text){
 
 
 
+function stopServer(err){
+   console.log('>> Killing server...');
+   if(err){
+      console.error(err);
+      process.exit(1);
+      throw err;
+   } else{
+      process.exit(0);
+   }
+}
+
 
 conn.connect((err) => {
    if(err){
@@ -308,8 +336,48 @@ conn.connect((err) => {
       stopServer(err);
    }
 
+   onDatabaseConnected();
+
    // *Loading up server on port 3000:
    http.listen(3000, () => {
-      console.log('>> Server listening on port 3000');
+      console.log('\n>> Server listening on port 3000');
+      onServerStarted();
    });
 });
+
+
+
+function onServerStarted(){
+
+}
+
+
+
+function onDatabaseConnected(){
+   var fs = require('fs');
+
+   // *Checking for directories:
+   console.log('>> Checking for directories...');
+
+   // *Checking for dynamic directory:
+   dynamicDir = process.env.APPDATA || (process.platform == 'darwin' ? process.env.HOME + 'Library/Preferences' : '/var/local');
+   dynamicDir += '/echoes/dynamic';
+   if(!fs.existsSync(dynamicDir)){
+      console.log('\t>> Creating \'dynamic directory\'...');
+      fs.mkdirSync(dynamicDir);
+      console.log('\t>> \'Dynamic directory\' created');
+   }
+
+   // *Checking for attachment directory:
+   attachmentDir = dynamicDir + '/' + ATTACHMENT_FOLDER_NAME;
+   if (!fs.existsSync(attachmentDir)){
+      console.log('\t>> Creating \'attachment directory\'...');
+      fs.mkdirSync(attachmentDir);
+      console.log('\t>> \'Attachment directory\' created');
+   }
+
+   // *Serving dynamic directory:
+   app.use(express.static(dynamicDir + '/'));
+
+   console.log('>> Directories checked');
+}

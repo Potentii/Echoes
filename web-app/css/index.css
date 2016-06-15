@@ -1,3 +1,4 @@
+
 #background-app-bar{
    height: 8em;
 }
@@ -7,7 +8,7 @@
    left: 0;
    width: 100%;
    height: 100%;
-   padding: 2em;
+   padding: 1em;
    background: none;
 }
 
@@ -61,7 +62,11 @@ main > section{
    position: relative;
    margin: 2.5em auto;
    width: 35em;
-   max-width: 70%;
+   max-width: 85%;
+}
+#login-logo-container{
+   margin: 0 auto;
+   max-width: 100%;
 }
 .input-container > input, .input-container > button{
    position: relative;
@@ -110,6 +115,15 @@ main > section{
 
 
 @media(min-width: 700px){
+   #body-container{
+      padding: 2em;
+   }
+
+   #login-section > *, #register-section > *:not(.app-bar){
+      margin: 2.5em auto;
+      max-width: 70%;
+   }
+
    #chat-panel{
       width: 100%;
    }
@@ -127,6 +141,8 @@ main > section{
       min-width: 30em;
       max-width: 30em;
    }
+
+
 }
 
 
@@ -139,21 +155,62 @@ main > section{
    flex-grow: 1;
    overflow-y: auto;
 }
+
 #feed-list li[data-mine="true"]{
-   text-align: right;
+   align-items: flex-end;
 }
 
 #feed-list .message-info{
    color: var(--neutral-faded-color);
+}
+#feed-list .message-attachment[data-type="image"]{
+   width: 14em;
+   height: 14em;
+   margin-bottom: 2em;
+   background-position: center;
+   background-size: cover;
+   border: 0.5em solid var(--neutral-lighter-color);
 }
 
 #feed-section footer{
    position: relative;
 }
 
+
+
 #feed-message-input-container{
-   padding: 1.3em 1.5em;
+   /*padding: 1.3em 1.5em;*/
 }
+
+
+#feed-message-input-container.dragging{
+   border: 4px dashed var(--neutral-faded-color);
+}
+
+#feed-message-input-container.dragging > *{
+   opacity: 0.2;
+}
+
+#feed-message-input-container.dragging #feed-message-dragging-div{
+   display: block;
+   opacity: 1;
+}
+#feed-message-dragging-div{
+   position: absolute;
+   display: none;
+   width: 100%;
+   height: 100%;
+
+   text-align: center;
+   font-size: 1.6em;
+   color: var(--neutral-color);
+   z-index: 3;
+}
+#feed-message-dragging-div span{
+   display: block;
+   margin-top: 0.7em;
+}
+
 #feed-message-input-container > input[type='text']{
    padding: 0.8em 1em;
    font-size: 1.15em;
@@ -161,6 +218,7 @@ main > section{
    margin-right: 2em;
    color: var(--neutral-color);
 }
+
 #feed-message-input-container > .fab{
    flex-grow: 0;
    flex-shrink: 0;
