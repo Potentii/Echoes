@@ -8,7 +8,7 @@ insert into `user` (`name`, `login`, `password`) values ('Robin Tucker', 'rtucke
 insert into `user` (`name`, `login`, `password`) values ('Sara Perkins', 'sperkins3', 'BtavVxZVX26');
 insert into `user` (`name`, `login`, `password`) values ('Barbara Hanson', 'bhanson4', 'cZrMV9DZ');
 insert into `user` (`name`, `login`, `password`) values ('Guilherme Reginaldo', 'potentii', '123'); -- 6
-insert into `user` (`name`, `login`, `password`) values ('Lillian Fields', 'lfields5', 'urPWSIaq2');
+insert into `user` (`name`, `login`, `password`) values ('Lillian Fields', 'lfields', '123');
 insert into `user` (`name`, `login`, `password`) values ('Chris Mccoy', 'cmccoy6', '51QEBqjX');
 insert into `user` (`name`, `login`, `password`) values ('Phyllis Fox', 'pfox7', 'Qn5gfPfcPx');
 insert into `user` (`name`, `login`, `password`) values ('Cynthia Gibson', 'cgibson8', '0oQUORvwj3g');
@@ -56,8 +56,8 @@ insert into `contact` (`me_user_fk`, `contact_user_fk`) values (15, 7);
 
 call chat_create(6, 'chat test');
 call chat_add_user(1, 7);
-
+/*
 call chat_send_message(1, 6, 'Hello', null, null);
 call chat_send_message(1, 7, 'Hey', null, null);
 call chat_send_message(1, 6, 'How\'re you doing?', null, null);
-call chat_send_message(1, 7, 'nice, and you?', null, null);
+call chat_send_message(1, 7, 'nice, and you?', null, null);*/
