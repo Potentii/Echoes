@@ -25,7 +25,6 @@ ListHandler.prototype.update = function(newList){
 
    // *Chacking if the elemets was present before:
    for(var i=0; i<newList.length; i++){
-      //var oldIndex = this.array.indexOf(newList[i]);
       var oldIndex = this.findIndex(this.array, newList[i]);
       if(oldIndex >= 0){
          // *If this dom element was present before:
@@ -45,7 +44,7 @@ ListHandler.prototype.update = function(newList){
       }
    }
 
-   this.array = newList;
+   this.array = newList.slice(0);
    this.onUpdate();
 };
 
@@ -98,6 +97,7 @@ ListHandler.prototype.clearList = function(){
 
 
 ListHandler.prototype.click = function(click_func){
+   this.list_dom.off('click', 'li');
    this.list_dom.on('click', 'li', click_func);
    return this;
 };

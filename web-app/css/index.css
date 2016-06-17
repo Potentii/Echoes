@@ -114,39 +114,8 @@ main > section{
 }
 
 
-@media(min-width: 700px){
-   #body-container{
-      padding: 2em;
-   }
 
-   #login-section > *, #register-section > *:not(.app-bar){
-      margin: 2.5em auto;
-      max-width: 70%;
-   }
-
-   #chat-panel{
-      width: 100%;
-   }
-
-   #chat-panel.left-shifted{
-      margin-left: 0%;
-   }
-
-   #chat-vertical-line{
-      display: inline-block;
-      margin: 0;
-   }
-
-   #lobby-section{
-      min-width: 30em;
-      max-width: 30em;
-   }
-
-
-}
-
-
-#feed-section{
+#lobby-section, #feed-section{
    display: flex;
    flex-direction: column;
 }
@@ -166,8 +135,11 @@ main > section{
 
    opacity: 0.04;
 }
+#feed-back-button{
+   display: inline-block;
+}
 
-#feed-list{
+#lobby-chats-list, #feed-list{
    flex-grow: 1;
    overflow-y: auto;
 }
@@ -188,15 +160,11 @@ main > section{
    border: 0.5em solid var(--neutral-lighter-color);
 }
 
-#feed-section footer{
+#lobby-section footer, #feed-section footer{
    position: relative;
 }
 
 
-
-#feed-message-input-container{
-   /*padding: 1.3em 1.5em;*/
-}
 
 
 #feed-message-input-container.dragging{
@@ -238,4 +206,44 @@ main > section{
 #feed-message-input-container > .fab{
    flex-grow: 0;
    flex-shrink: 0;
+}
+
+
+
+
+
+
+@media(min-width: 700px){
+   #body-container{
+      padding: 2em;
+   }
+
+   #login-section > *, #register-section > *:not(.app-bar){
+      margin: 2.5em auto;
+      max-width: 70%;
+   }
+
+   #chat-panel{
+      width: 100%;
+   }
+
+   #chat-panel.left-shifted{
+      margin-left: 0%;
+   }
+
+   #chat-vertical-line{
+      display: inline-block;
+      margin: 0;
+   }
+
+   #lobby-section{
+      min-width: 30em;
+      max-width: 30em;
+   }
+
+   #feed-back-button{
+      display: none;
+   }
+
+
 }

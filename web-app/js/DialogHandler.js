@@ -27,14 +27,15 @@ DialogHandler.prototype.enableDialog = function(enable){
    var that = this;
    if(enable){
       this.dialog_dom.on('click', function(e){
-         if(this == e.target){
+         if(this == e.target || $(e.target).hasClass('dialog-container')){
             that.hide();
          }
       });
 
+      /*
       this.dialog_dom.on('click', '.button-container > button', () => {
          that.hide();
-      });
+      });*/
 
    } else{
       this.dialog_dom.off('click');

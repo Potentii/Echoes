@@ -43,6 +43,7 @@ function SelectableListHandler(list_dom, rowFactory_func, itemEquality_func, sel
                that.selectedItemArray.splice(indexToRemove, 1);
             }
          }
+
          break;
       }
 
@@ -51,7 +52,8 @@ function SelectableListHandler(list_dom, rowFactory_func, itemEquality_func, sel
 
       // *Calling onSelectionUpdated listener:
       if(that.onSelectionUpdated_func){
-         that.onSelectionUpdated_func(that.selectedItemArray, item_selected);
+         //that.onSelectionUpdated_func(that.selectedItemArray, item_selected);
+         that.onSelectUpdate(that.selectedItemArray, item_selected);
       }
    });
 }
@@ -79,13 +81,17 @@ SelectableListHandler.prototype.onUpdate = function(){
 };
 
 
+SelectableListHandler.prototype.onSelectUpdate = function(selectedArray, itemSelected){
+   this.onSelectionUpdated_func(selectedArray, itemSelected);
+};
 
-ListHandler.prototype.setOnSelectionUpdatedListener = function(onSelectionUpdated_func){
+
+SelectableListHandler.prototype.setOnSelectionUpdatedListener = function(onSelectionUpdated_func){
    this.onSelectionUpdated_func = onSelectionUpdated_func;
    return this;
 };
 
-ListHandler.prototype.select = function(onSelectionUpdated_func){
+SelectableListHandler.prototype.select = function(onSelectionUpdated_func){
    return this.setOnSelectionUpdatedListener(onSelectionUpdated_func);
 };
 

@@ -86,6 +86,12 @@ $(document).ready(function(){
          });
       }
    });
+
+
+   $('#feed-back-button').click(function(e){
+      unLoadFeed(feedListHandler);
+      slideChatPanel(PANEL_LEFT);
+   });
 });
 
 
@@ -131,7 +137,12 @@ function loadFeed(chatId){
    socket.emit('chat-info-request', chatId);
    currentChatId = chatId;
 }
-
+function unLoadFeed(feedListHandler){
+   feedListHandler.clearList();
+   blockChating();
+   $('#feed-chat-name-text').text('Welcome to Echoes');
+   currentChatId = null;
+}
 
 
 function blockChating(){

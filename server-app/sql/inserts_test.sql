@@ -26,7 +26,10 @@ insert into `user` (`name`, `login`, `password`) values ('Joshua Mccoy', 'jmccoy
 insert into `user` (`name`, `login`, `password`) values ('Rachel Hernandez', 'rhernandezj', 'GFnelVK');
 
 
+
+
 -- 25
+
 insert into `contact` (`me_user_fk`, `contact_user_fk`) values (9, 4);
 insert into `contact` (`me_user_fk`, `contact_user_fk`) values (9, 10);
 insert into `contact` (`me_user_fk`, `contact_user_fk`) values (4, 20);
@@ -52,12 +55,10 @@ insert into `contact` (`me_user_fk`, `contact_user_fk`) values (18, 2);
 insert into `contact` (`me_user_fk`, `contact_user_fk`) values (8, 17);
 insert into `contact` (`me_user_fk`, `contact_user_fk`) values (6, 2);
 insert into `contact` (`me_user_fk`, `contact_user_fk`) values (15, 7);
+insert into `contact` (`me_user_fk`, `contact_user_fk`) values (6, 7);
+insert into `contact` (`me_user_fk`, `contact_user_fk`) values (7, 6);
+insert into `contact` (`me_user_fk`, `contact_user_fk`) values (6, 16);
 
 
-call chat_create(6, 'chat test');
+call chat_create(6, 'Chat test');
 call chat_add_user(1, 7);
-/*
-call chat_send_message(1, 6, 'Hello', null, null);
-call chat_send_message(1, 7, 'Hey', null, null);
-call chat_send_message(1, 6, 'How\'re you doing?', null, null);
-call chat_send_message(1, 7, 'nice, and you?', null, null);*/

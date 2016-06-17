@@ -40,7 +40,7 @@ $(document).ready(function(){
          }
       }
    });
-   
+
    $(document).on('drop', function(e){
       e.preventDefault();
       e.stopPropagation();
@@ -151,9 +151,8 @@ function arrayToString(array, value_func){
       array_str += value_func(array[i]);
       if(i<array.length-1){
          array_str += ', ';
-      } else{
-         array_str += ']';
       }
    }
+   array_str += ']';
    return array_str;
 }

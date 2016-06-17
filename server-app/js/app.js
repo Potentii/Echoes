@@ -63,22 +63,23 @@ io.on('connection', (socket) => {
     */
    socket.on('login-request', (data) => {
       // *Trying to retrieve the user from database:
-      conn.query('select ?? from ?? where ?? = ? and ?? = ?', [['id', 'name'], 'user', 'login', data.login, 'password', data.password], (err, resultSet) => {
+      conn.query('call ??(?)', ['try_login', [data.login, data.password]], (err, resultSet) => {
          if(err){
             // *If login failed because of an error:
             socket.emit('login-err-response', 'Can\'t login: ' + err.message);
-         } else if(resultSet.length === 0){
+         } else if(resultSet[0].length === 0){
             // *If login failed:
             socket.emit('login-err-response', 'Wrong login or password');
-         } else if(findUserIndex_byId(resultSet[0].id) >= 0){
+         } else if(findUserIndex_byId(resultSet[0][0].id) >= 0){
             // *If login was OK, but the user is already logged in:
             socket.emit('login-err-response', 'Your account is already logged in');
          } else{
+
             // *If login was OK:
             var user = {
-               id: resultSet[0].id,
+               id: resultSet[0][0].id,
                clientId: socket.id,
-               name: resultSet[0].name
+               name: resultSet[0][0].name
             };
 
             // *Sending back user's info:
@@ -88,15 +89,14 @@ io.on('connection', (socket) => {
             // *Adding this user on list:
             user_list.push(user);
             // *Subscribes the user to its chats' rooms:
-            conn.query('select ?? from ?? where ?? = ?', [['id', 'name'], 'user_chats_view', 'user', user.id], (err, resultSet) => {
+            conn.query('select ?? from ?? where ?? = ?', [['id', 'name'], 'user_chats_view', 'user', user.id], (err, resultSet2) => {
                if(err){ throw err; }
-               for(var i=0; i<resultSet.length; i++){
-                  socket.join(CHAT_ROOM_PREFIX + resultSet[i].id);
+               for(var i=0; i<resultSet2.length; i++){
+                  socket.join(CHAT_ROOM_PREFIX + resultSet2[i].id);
                }
                // *Sending its chats list:
-               socket.emit('chat-list-update', resultSet);
+               socket.emit('chat-list-update', resultSet2);
             });
-
 
             console.log('--> ' + user.name + '  @  ' + datetime.getFormattedDateTime());
          }
@@ -131,11 +131,11 @@ io.on('connection', (socket) => {
       var user = findUser_byClientId(socket.id);
 
       var friendshipData = {
-         user_one_id_fk: user.id,
-         user_two_id_fk: data
+         me_user_fk: user.id,
+         contact_user_fk: data
       };
 
-      conn.query('insert into ?? set ?', ['friendship', friendshipData], (err, resultSet) => {
+      conn.query('insert into ?? set ?', ['contact', friendshipData], (err, resultSet) => {
          socket.emit('add-contact-response', !err);
          if(err){ throw err; }
       });
@@ -165,17 +165,68 @@ io.on('connection', (socket) => {
    /*
     * Creates a new chat, and adds the current user to it
     * - It emits back if the chat could be created TODO
-    * @param data Chat's name
+    * @param data {chatName: Chat's name, users: Users' ids}
     */
    socket.on('create-chat-request', (data) => {
+
       // *Searching for the user, based on its clientId:
       var user = findUser_byClientId(socket.id);
 
-      conn.query('call ??(?, ?)', ['chat_create', user.id, data], (err, resultSet) => {
-         //socket.on('create-chat-response', !err2);
-         // TODO return the chat created
-         // TODO or simply updates the user chat list
-         if(err){ throw err; }
+      conn.query('call ??(?, ?)', ['chat_create', user.id, data.chatName], (err, resultSet) => {
+         if(err){
+            socket.emit('create-chat-response', null);
+            throw err;
+         }
+
+         var users = data.users;
+         var chat = resultSet[0][0];
+
+         if(users && users.length > 0){
+            var promiseArray = [];
+            // *Declaring the function that generates a promise to call the procedure on database:
+            var generateCallPromisse = (userId) => {
+               return new Promise((resolve, reject) => {
+                  conn.query('call ??(?, ?)', ['chat_add_user', chat.id, userId], (err, resultSet) => {
+                     if(err){ reject(err); }
+                     resolve();
+                  });
+               });
+            };
+
+            // *Putting all promisses together:
+            for(var i=0; i<users.length; i++){
+               promiseArray.push(generateCallPromisse(users[i]));
+            }
+
+            // *Executing the promisses:
+            Promise
+               .all(promiseArray)
+               .then(() => {
+                  // *If creation was successful:
+                  // *Add me to the users list:
+                  users.push(user.id);
+                  // *For each user:
+                  for(var i=0; i<users.length; i++){
+                     var userAdded = findUser_byId(users[i]);
+                     if(userAdded){
+                        // *If the user added is logged in:
+                        var userSocket = io.sockets.connected[userAdded.clientId];
+                        // *Adding them to this new chat's room:
+                        userSocket.join(CHAT_ROOM_PREFIX + chat.id);
+                     }
+                  }
+                  // *Sending the new chat:
+                  io.sockets.in(CHAT_ROOM_PREFIX + chat.id).emit('create-chat-response', chat);
+               }, (err) => {
+                  // *If creation failed:
+                  socket.emit('create-chat-response', null);
+                  throw err;
+               });
+
+         } else{
+            socket.join(CHAT_ROOM_PREFIX + chat.id);
+            socket.emit('create-chat-response', chat);
+         }
       });
    });
 

@@ -104,7 +104,6 @@ create view `chat_users_view` as
 			on `chat`.`id` = `group`.`chat_fk`;
 
 
-
 -- Get chat's messages
 create view `chat_messages_view` as
 	select
@@ -168,6 +167,17 @@ end $$
 delimiter ;
 
 
+drop procedure if exists try_login;
+delimiter $$
+create procedure try_login(in arg_user_login VARCHAR(45), in arg_user_password VARCHAR(16))
+begin
+	set autocommit = 0;
+	start transaction;
+		select `id`, `name` from `user` where `login` = arg_user_login and `password` = arg_user_password limit 1;
+	commit;
+end $$
+delimiter ;
+
 
 drop procedure if exists chat_add_user;
 delimiter $$
@@ -191,10 +201,15 @@ drop procedure if exists chat_create;
 delimiter $$
 create procedure chat_create(in arg_user_id BIGINT, in arg_chat_name TEXT)
 begin
+	declare var_chat_id BIGINT;
 	set autocommit = 0;
 	start transaction;
 		insert into `chat` (`name`) values (arg_chat_name);
-        call chat_add_user(LAST_INSERT_ID(), arg_user_id);
+        set var_chat_id = LAST_INSERT_ID();
+        call chat_add_user(var_chat_id, arg_user_id);
+        
+        -- Returning the created chat id:
+        select `id`, `name` from `chat` where `id` = var_chat_id;
 	commit;
 end $$
 delimiter ;

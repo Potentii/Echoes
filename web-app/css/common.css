@@ -89,9 +89,12 @@ body{
 	display: inline-block;
 	background: none !important;
 	margin: 0.5em;
-	padding: 0.4em;
-	font-size: 1.7em;
+	padding: 0.7em;
+	font-size: 1.2em;
 	box-shadow: none;
+}
+.app-bar.silver .fab{
+	color: var(--neutral-color) !important;
 }
 
 .tabs-container{
@@ -407,17 +410,16 @@ li .secondary{
 	left: 0;
 	background: rgba(0, 0, 0, 0.8);
 	z-index: 8;
+	padding: 2em;
 }
 
 .dialog-container{
 	position: relative;
-	width: 30em;
-	max-width: 80%;
+	width: 35em;
+	max-width: 100%;
+	height: 100%;
 	margin: 0 auto;
-	padding: 4em 0;
-}
-.dialog-container > .content{
-	max-height: 100%;
+	overflow-y: auto;
 }
 
 .dialog-container .button-container{

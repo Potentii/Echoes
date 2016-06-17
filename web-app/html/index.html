@@ -57,8 +57,8 @@
                   <div id="login-logo-container" class="box card raised">
                   </div>
                   <form id="login-form" class="form box card raised">
-                     <input id="login-login-input" type="text" placeholder="Login" pattern="\S+" autocomplete="on" required>
-                     <input id="login-password-input" type="password" placeholder="Password" pattern="\S+" autocomplete="off" required>
+                     <input id="login-login-input" type="text" placeholder="Login" pattern="^(?![^\S]+$).*$" autocomplete="on" required>
+                     <input id="login-password-input" type="password" placeholder="Password" pattern="^(?![^\S]+$).*$" autocomplete="off" required>
                      <div class="horizontal-line"></div>
                      <button id="login-confirm-button" type="submit" class="mdl-js-button mdl-js-ripple-effect box card tinted raised">Login</button>
                      <button id="login-register-button" type="button" class="mdl-js-button mdl-js-ripple-effect box card">Register</button>
@@ -71,9 +71,9 @@
                      <span>Register form</span>
                   </div>
                   <form id="register-form" class="form box card raised">
-                     <input id="register-name-input" type="text" placeholder="Name" pattern="\S+" autocomplete="off" required>
-                     <input id="register-login-input" type="text" placeholder="Login" pattern="\S+" autocomplete="off" required>
-                     <input id="register-password-input" type="password" placeholder="Password" pattern="\S+" autocomplete="false" required>
+                     <input id="register-name-input" type="text" placeholder="Name" pattern="^(?![^\S]+$).*$" autocomplete="off" required>
+                     <input id="register-login-input" type="text" placeholder="Login" pattern="^(?![^\S]+$).*$" autocomplete="off" required>
+                     <input id="register-password-input" type="password" placeholder="Password" pattern="^(?![^\S]+$).*$" autocomplete="off" required>
                      <div class="horizontal-line"></div>
                      <button id="register-confirm-button" type="submit" class="mdl-js-button mdl-js-ripple-effect box card tinted raised">OK</button>
                      <button id="register-cancel-button" type="button" class="mdl-js-button mdl-js-ripple-effect box card">Cancel</button>
@@ -92,11 +92,6 @@
                   </div>
                   <ul id="lobby-chats-list" class="list">
                      <span class="empty-list-text box center">No chats started yet</span>
-                     <!--
-                     <li class="horizontal-layout">
-                        <span class="primary">User's name</span>
-                     </li>
-                     -->
                   </ul>
                   <footer class="raised">
                      <div class="button-container expanded">
@@ -112,6 +107,7 @@
 
                <section id="feed-section">
                   <div class="app-bar horizontal-layout silver raised">
+                     <button id="feed-back-button" type="button" class="material-icons mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored raised fab">arrow_back</button>
                      <span id="feed-chat-name-text">Welcome to Echoes</span>
                   </div>
                   <ul id="feed-list" class="list">
@@ -132,30 +128,9 @@
       </div>
 
 
-      <!--
-      <div id="chat-managing-dialog" class="black-screen expanded">
-         <div class="dialog-container">
-            <div class="content card raised">
-               <div class="app-bar vertical-layout raised silver">
-                  <span></span>
-               </div>
-               <form id="chat-managing-form" class="input-container">
-                  <input id="chat-managing-name-input" type="text" disabled="true" pattern="\S+" autocomplete="false" placeholder="Chat name" required>
 
-               </form>
 
-               <ul id="chat-managing-user-list" class="list">
-                  <span class="empty-list-text box center">No contacts found</span>
 
-               </ul>
-               <div class="button-container">
-                  <button id="chat-managing-cancel-button" type="button" class="cancel-button mdl-js-button mdl-js-ripple-effect flat-button">CANCEL</button>
-                  <button id="chat-managing-ok-button" type="submit" form="chat-managing-form" disabled="true" class="ok-button mdl-js-button mdl-js-ripple-effect flat-button highlighted">SAVE</button>
-               </div>
-            </div>
-         </div>
-      </div>
-      -->
 
       <div id="add-contact-dialog" class="black-screen expanded">
          <div class="dialog-container">
@@ -174,6 +149,43 @@
                <div class="button-container">
                   <button id="add-contact-cancel-button" type="button" class="cancel-button mdl-js-button mdl-js-ripple-effect flat-button">CANCEL</button>
                   <button id="add-contact-ok-button" type="button" disabled="true" class="ok-button mdl-js-button mdl-js-ripple-effect flat-button highlighted">ADD</button>
+               </div>
+            </div>
+         </div>
+      </div>
+
+
+
+      <div id="chat-managing-dialog" class="black-screen expanded">
+         <div class="dialog-container">
+            <div class="content card raised">
+               <div id="chat-managing-dialog-title" class="app-bar vertical-layout raised silver">
+                  <span></span>
+               </div>
+               <form id="chat-managing-form" class="input-container">
+                  <input id="chat-managing-name-input" type="text" disabled="true" pattern="^(?![^\S]+$).*$" autocomplete="off" placeholder="Chat name" required/>
+
+               </form>
+
+
+               <div class="app-bar vertical-layout silver">
+                  <span>Users on chat</span>
+               </div>
+               <ul id="chat-managing-user-selection-list" class="list">
+                  <span class="empty-list-text box center">No contacts on chat</span>
+               </ul>
+
+               <div class="app-bar vertical-layout silver">
+                  <span>Add contacts</span>
+               </div>
+               <ul id="chat-managing-user-list" class="list">
+                  <span class="empty-list-text box center">No contacts found</span>
+               </ul>
+
+               <div class="button-container">
+                  <button id="chat-managing-cancel-button" type="button" class="cancel-button mdl-js-button mdl-js-ripple-effect flat-button">CANCEL</button>
+                  <button id="chat-managing-ok-button" type="submit" form="chat-managing-form" class="ok-button mdl-js-button mdl-js-ripple-effect flat-button highlighted">SAVE</button>
+
                </div>
             </div>
          </div>

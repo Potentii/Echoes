@@ -44,6 +44,12 @@ AddContactDialog.prototype.load = function(data){
    $('#add-contact-ok-button').on('click', (e) => {
       // *Request the server to add the given id as friend:
       socket.emit('add-contact-request', this.listHandler.getSelectedItemArray()[0].id);
+      this.hide();
+   });
+
+   // *When user clicks on CANCEL button:
+   $('#add-contact-cancel-button').on('click', (e) => {
+      this.hide();
    });
 };
 
@@ -56,6 +62,7 @@ AddContactDialog.prototype.unload = function(){
    socket.removeAllListeners('search-users-response');
    $('#add-contact-ok-button').prop('disabled', true);
    $('#add-contact-ok-button').off('click');
+   $('#add-contact-cancel-button').off('click');
    $('#add-contact-search-input').prop('disabled', true).val('');
    $('#add-contact-search-input').off('chage paste keyup');
    this.listHandler.clearList();

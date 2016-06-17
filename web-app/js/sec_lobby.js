@@ -11,6 +11,13 @@ $(document).ready(function(){
          SINGLE_SELECTION
       );
 
+   // *When I've been added on a chat by someone:
+   socket.on('create-chat-response', (chat) => {
+      if(chat){
+         listHandler.join(chat);
+      }
+   });
+
    socket.on('chat-list-update', (chats) => {
       listHandler.update(chats);
    });
